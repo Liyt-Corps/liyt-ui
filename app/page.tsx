@@ -26,7 +26,7 @@ export default function Home() {
             The <span className="text-[#E4FF2C]">liyt</span> way
           </h1>
           <p className="text-xl md:text-2xl text-white/80 mb-10 w-full">
-            Payy is a stablecoin-native banking platform with unrivaled privacy.
+            LIYT is a smart delivery platform for social commerce businesses. Create, track, and complete last-mile deliveries with a shared driver network.
           </p>
 
           {/* Phone Image */}
@@ -71,7 +71,7 @@ export default function Home() {
               Get it
             </h2>
             <h2 className="text-6xl md:text-7xl lg:text-8xl font-black text-[#E4FF2C] mb-8">
-              Deliverd
+              Delivered
             </h2>
             <p className="text-white/80 text-lg md:text-xl mb-10 max-w-md mx-auto">
               Premium, reliable service at your fingertips. From across town to your doorstep
@@ -122,7 +122,7 @@ export default function Home() {
               Tracking
             </h3>
             <p className="text-white/70 text-lg md:text-xl max-w-lg">
-              GPS precision that keeps you informed every second of the journey No more guessing
+              GPS precision that keeps you informed every second of the journey. No more guessing.
             </p>
           </div>
 
@@ -130,13 +130,13 @@ export default function Home() {
           <div className="mt-24 md:mt-32 w-full md:w-auto md:mx-auto md:text-center">
             <span className="text-[#E4FF2C] text-lg font-medium mb-4 block md:text-center">02</span>
             <h3 className="text-5xl md:text-6xl lg:text-7xl font-black text-[#E4FF2C] mb-3">
-              Secure
+              Transparent
             </h3>
             <h3 className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6">
-              Payments
+              Pricing
             </h3>
             <p className="text-white/70 text-lg md:text-xl max-w-lg md:mx-auto">
-              Encrypted one-tap payments with all major providers and digital wallets
+              Clear, standardized fees so businesses can price confidently and customers know the cost upfront.
             </p>
           </div>
 
@@ -150,7 +150,7 @@ export default function Home() {
               Support
             </h3>
             <p className="text-white/70 text-lg md:text-xl max-w-lg md:ml-auto">
-              Our dedicated team is always online to ensure your experience is flawless FAST
+              Our dedicated team is always online to ensure your experience is flawless.
             </p>
           </div>
         </div>
