@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Package, Settings, ArrowLeft, Menu, LogOut, User } from 'lucide-react';
+import { LayoutDashboard, Package, Settings, ArrowLeft, Menu, LogOut, User, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -13,6 +13,7 @@ import { logoutUser } from '@/lib/features/auth/authSlice';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Orders', href: '/dashboard/orders', icon: Package },
+  { name: 'Developers', href: '/dashboard/developers', icon: Code2 },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
