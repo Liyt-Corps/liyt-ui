@@ -80,7 +80,7 @@ const loadInitialState = (): AuthState => {
       user: null,
       business: null,
       accessToken: null,
-      refreshToken: null,
+      refreshToken: refreshToken, // Keep refresh token to allow refresh attempts
       expiresAt: null,
       isAuthenticated: false,
       isLoading: false,

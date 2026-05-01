@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/lib/StoreProvider";
+import { FetchInterceptor } from "./components/FetchInterceptor";
 import { ConditionalLayout } from "./components/ConditionalLayout";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -25,9 +26,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <StoreProvider>
-            <ConditionalLayout>
-              {children}
-            </ConditionalLayout>
+            <FetchInterceptor>
+              <ConditionalLayout>
+                {children}
+              </ConditionalLayout>
+            </FetchInterceptor>
           </StoreProvider>
           <Toaster 
             position="top-right"

@@ -42,10 +42,10 @@ export default function Home() {
         {/* Bottom Text and CTA Buttons */}
         <div className="relative z-10 w-full px-6 mt-auto pb-8 flex flex-col items-center">
           <p className="text-xl md:text-2xl text-gray-200 font-medium mb-12 md:mb-16 w-full max-w-5xl text-center min-h-[8rem] md:min-h-[4rem]">
-            <Typewriter 
-              text="LIYT is a smart delivery platform for social commerce businesses. Create, track, and complete last-mile deliveries with a shared driver network." 
-              delay={200} 
-              speed={20} 
+            <Typewriter
+              text="LIYT is a smart delivery platform for social commerce businesses. Create, track, and complete last-mile deliveries with a shared driver network."
+              delay={200}
+              speed={20}
             />
           </p>
 
@@ -186,7 +186,7 @@ export default function Home() {
             <div className="flex justify-center w-full">
               <div className="relative" style={{ maxWidth: '680px' }}>
                 <Image
-                  src="/phone.png"
+                  src="/phone1.png"
                   alt="LIYT App"
                   width={680}
                   height={1020}

@@ -32,8 +32,8 @@ export default function Header() {
   }, [dispatch]);
 
   const navLinks = [
-    { href: "/coming-soon", label: "Features" },
-    { href: "/coming-soon", label: "How it works" },
+    { href: "/#features", label: "Features" },
+    { href: "/#how-it-works", label: "How it works" },
     { href: "/download-app", label: "Download" },
   ];
 

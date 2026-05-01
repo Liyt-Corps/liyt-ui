@@ -139,63 +139,41 @@ export default function TrackingPage() {
   const getTimelineEvents = (): TimelineEvent[] => {
     if (!delivery) return [];
 
-    const events: TimelineEvent[] = [];
+    const statuses = ['awaiting_recipient', 'pending', 'accepted', 'picked_up', 'in_transit', 'delivered'];
+    const currentIndex = statuses.indexOf(delivery.status);
 
-    // Order created
-    if (delivery.status !== 'awaiting_recipient') {
-      events.push({
+    return [
+      {
         status: 'Order Created',
         date: delivery.created_at || null,
-        completed: !!delivery.created_at,
-      });
-    }
-
-    // Confirmed by recipient
-    if (delivery.status === 'pending' || delivery.status === 'accepted' || delivery.status === 'picked_up' || delivery.status === 'in_transit' || delivery.status === 'delivered') {
-      events.push({
+        completed: true,
+      },
+      {
         status: 'Confirmed',
         date: delivery.created_at || null,
-        completed: true,
-      });
-    }
-
-    // Accepted by driver
-    if (delivery.status === 'accepted' || delivery.status === 'picked_up' || delivery.status === 'in_transit' || delivery.status === 'delivered') {
-      events.push({
+        completed: currentIndex >= 1,
+      },
+      {
         status: 'Accepted',
         date: delivery.accepted_at || null,
-        completed: true,
-      });
-    }
-
-    // Picked up
-    if (delivery.status === 'picked_up' || delivery.status === 'in_transit' || delivery.status === 'delivered') {
-      events.push({
+        completed: currentIndex >= 2,
+      },
+      {
         status: 'Picked Up',
         date: delivery.picked_up_at || null,
-        completed: !!delivery.picked_up_at || delivery.status === 'in_transit' || delivery.status === 'delivered',
-      });
-    }
-
-    // In Transit
-    if (delivery.status === 'in_transit' || delivery.status === 'delivered') {
-      events.push({
+        completed: currentIndex >= 3,
+      },
+      {
         status: 'In Transit',
         date: delivery.picked_up_at || null,
-        completed: delivery.status === 'in_transit' || delivery.status === 'delivered',
-      });
-    }
-
-    // Delivered
-    if (delivery.status === 'delivered') {
-      events.push({
+        completed: currentIndex >= 4,
+      },
+      {
         status: 'Delivered',
         date: delivery.delivered_at || null,
-        completed: !!delivery.delivered_at,
-      });
-    }
-
-    return events;
+        completed: currentIndex === 5,
+      }
+    ];
   };
 
   const getMapCenter = (): [number, number] => {
@@ -264,8 +242,9 @@ export default function TrackingPage() {
     }
   };
 
-  const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return 'Pending';
+  const formatDate = (dateString: string | null | undefined, completed: boolean) => {
+    if (!completed) return 'Pending';
+    if (!dateString) return 'Completed';
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -416,7 +395,7 @@ export default function TrackingPage() {
                         <h4 className={`font-medium ${event.completed ? 'text-white' : 'text-white/50'}`}>
                           {event.status}
                         </h4>
-                        <p className="text-sm text-[#E4FF2C]">{formatDate(event.date)}</p>
+                        <p className="text-sm text-[#E4FF2C]">{formatDate(event.date, event.completed)}</p>
                       </div>
                     </div>
                   ))}

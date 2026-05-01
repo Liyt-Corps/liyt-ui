@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { StatsCard } from '../components/StatsCard';
+import { OrderStatsSummary, OrderStats } from '../components/OrderStatsSummary';
 import { StatusBadge } from '../components/StatusBadge';
 import { CreateOrderModal } from '../components/CreateOrderModal';
 import {
@@ -81,12 +82,7 @@ interface Delivery {
   items?: DeliveryItem[];
 }
 
-interface OrderStats {
-  totalOrders: number;
-  pending: number;
-  inTransit: number;
-  completed: number;
-}
+// Interface imported from OrderStatsSummary
 
 export default function OrdersPage() {
   const { accessToken } = useAppSelector((state) => state.auth);
@@ -258,28 +254,7 @@ export default function OrdersPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatsCard
-            title="Total Orders"
-            value={stats.totalOrders.toLocaleString()}
-            icon={ShoppingCart}
-          />
-          <StatsCard
-            title="Pending"
-            value={stats.pending}
-            icon={Clock}
-          />
-          <StatsCard
-            title="In Transit"
-            value={stats.inTransit}
-            icon={Rocket}
-          />
-          <StatsCard
-            title="Completed"
-            value={stats.completed}
-            icon={CheckCircle}
-          />
-        </div>
+        <OrderStatsSummary stats={stats} />
 
         {/* Search and Filters */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">

@@ -54,6 +54,12 @@ export function useAuthCheck({ requireAuth = true, redirectTo = '/login' }: UseA
     const checkAuth = async () => {
       // If not authenticated and auth is required, redirect
       if (requireAuth && !isAuthenticated) {
+        if (storedRefreshToken) {
+          const refreshed = await attemptRefresh();
+          if (refreshed) {
+            return; // Refresh succeeded, don't redirect
+          }
+        }
         router.push(redirectTo);
         return;
       }
