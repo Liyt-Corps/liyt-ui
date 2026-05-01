@@ -197,6 +197,10 @@ export const auth = {
           ...options,
           headers: newHeaders,
         });
+      } else {
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
       }
     }
 

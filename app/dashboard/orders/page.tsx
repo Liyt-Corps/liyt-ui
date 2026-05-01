@@ -1,20 +1,16 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from '../components/DashboardLayout';
-import { StatsCard } from '../components/StatsCard';
+import { OrderStatsSummary, OrderStats } from '../components/OrderStatsSummary';
 import { StatusBadge } from '../components/StatusBadge';
 import { CreateOrderModal } from '../components/CreateOrderModal';
 import {
   ShoppingCart,
-  Clock,
-  CheckCircle,
-  Rocket,
   Search,
   Filter,
   Download,
-  Bell,
   MapPin,
   MoreHorizontal,
   ChevronLeft,
@@ -81,18 +77,13 @@ interface Delivery {
   items?: DeliveryItem[];
 }
 
-interface OrderStats {
-  totalOrders: number;
-  pending: number;
-  inTransit: number;
-  completed: number;
-}
+// Interface imported from OrderStatsSummary
 
 export default function OrdersPage() {
   const { accessToken } = useAppSelector((state) => state.auth);
   
   // Use auth check hook - redirects to login if not authenticated
-  const { isAuthenticated, isLoading: authLoading } = useAuthCheck({ requireAuth: true, redirectTo: '/login' });
+  useAuthCheck({ requireAuth: true, redirectTo: '/login' });
   
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -253,33 +244,14 @@ export default function OrdersPage() {
             >
               <Loader2 className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </Button>
-            <CreateOrderModal onOrderCreated={handleOrderCreated} />
+            <Suspense fallback={<Button variant="outline" className="border-white/20 text-white"><Loader2 className="w-4 h-4 mr-2 animate-spin" />Loading...</Button>}>
+              <CreateOrderModal onOrderCreated={handleOrderCreated} />
+            </Suspense>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatsCard
-            title="Total Orders"
-            value={stats.totalOrders.toLocaleString()}
-            icon={ShoppingCart}
-          />
-          <StatsCard
-            title="Pending"
-            value={stats.pending}
-            icon={Clock}
-          />
-          <StatsCard
-            title="In Transit"
-            value={stats.inTransit}
-            icon={Rocket}
-          />
-          <StatsCard
-            title="Completed"
-            value={stats.completed}
-            icon={CheckCircle}
-          />
-        </div>
+        <OrderStatsSummary stats={stats} />
 
         {/* Search and Filters */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">

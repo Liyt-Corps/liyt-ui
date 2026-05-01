@@ -54,6 +54,12 @@ export function useAuthCheck({ requireAuth = true, redirectTo = '/login' }: UseA
     const checkAuth = async () => {
       // If not authenticated and auth is required, redirect
       if (requireAuth && !isAuthenticated) {
+        if (storedRefreshToken) {
+          const refreshed = await attemptRefresh();
+          if (refreshed) {
+            return; // Refresh succeeded, don't redirect
+          }
+        }
         router.push(redirectTo);
         return;
       }
@@ -76,7 +82,7 @@ export function useAuthCheck({ requireAuth = true, redirectTo = '/login' }: UseA
     };
 
     checkAuth();
-  }, [isAuthCheckComplete, reduxIsLoading, isAuthenticated, expiresAt, requireAuth, redirectTo, router, dispatch, attemptRefresh]);
+  }, [isAuthCheckComplete, reduxIsLoading, isAuthenticated, expiresAt, requireAuth, redirectTo, router, dispatch, attemptRefresh, storedRefreshToken]);
 
   // Function to manually check and refresh token
   const ensureValidToken = useCallback(async (): Promise<boolean> => {

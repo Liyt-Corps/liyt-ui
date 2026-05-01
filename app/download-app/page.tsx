@@ -82,7 +82,7 @@ export default function DownloadAppPage() {
             <div className="flex justify-center">
               <div className="relative" style={{ maxWidth: '400px' }}>
                 <Image
-                  src="/phone.png"
+                  src="/phone1.png"
                   alt="LIYT App"
                   width={400}
                   height={600}

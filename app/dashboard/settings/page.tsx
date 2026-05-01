@@ -54,7 +54,7 @@ export default function SettingsPage() {
   const { accessToken, user } = useAppSelector((state) => state.auth);
   
   // Use auth check hook - redirects to login if not authenticated
-  const { isAuthenticated, isLoading: authLoading } = useAuthCheck({ requireAuth: true, redirectTo: '/login' });
+  useAuthCheck({ requireAuth: true, redirectTo: '/login' });
   
   const [locations, setLocations] = useState<BusinessLocation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,12 +68,12 @@ export default function SettingsPage() {
   });
   const [formData, setFormData] = useState({
     name: '',
-    country_code: '',
+    country_code: 'ET',
     address1: '',
     address2: '',
     city: '',
-    region: '',
-    postal_code: '',
+    region: 'A.A',
+    postal_code: '1000',
     latitude: '',
     longitude: '',
     instructions: '',
@@ -279,12 +279,12 @@ export default function SettingsPage() {
     setEditingLocation(location);
     setFormData({
       name: location.name,
-      country_code: location.country_code,
+      country_code: location.country_code || 'ET',
       address1: location.address1 || '',
       address2: location.address2 || '',
       city: location.city || '',
-      region: location.region || '',
-      postal_code: location.postal_code || '',
+      region: location.region || 'A.A',
+      postal_code: location.postal_code || '1000',
       latitude: location.latitude || '',
       longitude: location.longitude || '',
       instructions: location.instructions || '',
@@ -296,12 +296,12 @@ export default function SettingsPage() {
   const resetForm = () => {
     setFormData({
       name: '',
-      country_code: '',
+      country_code: 'ET',
       address1: '',
       address2: '',
       city: '',
-      region: '',
-      postal_code: '',
+      region: 'A.A',
+      postal_code: '1000',
       latitude: '',
       longitude: '',
       instructions: '',
@@ -464,7 +464,7 @@ export default function SettingsPage() {
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="name" className="text-white">Location Name *</Label>
                           <Input
@@ -473,18 +473,6 @@ export default function SettingsPage() {
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="Main Warehouse"
                             required
-                            className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="country_code" className="text-white">Country Code *</Label>
-                          <Input
-                            id="country_code"
-                            value={formData.country_code}
-                            onChange={(e) => setFormData({ ...formData, country_code: e.target.value })}
-                            placeholder="US"
-                            required
-                            maxLength={2}
                             className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
                           />
                         </div>
@@ -509,7 +497,7 @@ export default function SettingsPage() {
                           className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
                         />
                       </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="city" className="text-white">City</Label>
                           <Input
@@ -517,26 +505,6 @@ export default function SettingsPage() {
                             value={formData.city}
                             onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                             placeholder="New York"
-                            className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="region" className="text-white">Region/State</Label>
-                          <Input
-                            id="region"
-                            value={formData.region}
-                            onChange={(e) => setFormData({ ...formData, region: e.target.value })}
-                            placeholder="NY"
-                            className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="postal_code" className="text-white">Postal Code</Label>
-                          <Input
-                            id="postal_code"
-                            value={formData.postal_code}
-                            onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })}
-                            placeholder="10001"
                             className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30"
                           />
                         </div>

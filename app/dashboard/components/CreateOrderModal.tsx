@@ -22,6 +22,7 @@ import {
 import { Plus, Package, Truck, Trash2, Send } from 'lucide-react';
 import { useAppSelector } from '@/lib/hooks';
 import { toast } from 'sonner';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
@@ -52,10 +53,23 @@ interface CreateOrderModalProps {
 
 export function CreateOrderModal({ onOrderCreated }: CreateOrderModalProps) {
   const { accessToken } = useAppSelector((state) => state.auth);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [locations, setLocations] = useState<BusinessLocation[]>([]);
   const [loadingLocations, setLoadingLocations] = useState(true);
+  
+  useEffect(() => {
+    if (searchParams.get('newOrder') === 'true') {
+      setOpen(true);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('newOrder');
+      router.replace(`${pathname}?${params.toString()}`);
+    }
+  }, [searchParams, pathname, router]);
   
   const [formData, setFormData] = useState({
     recipientEmail: '',
