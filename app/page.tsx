@@ -2,6 +2,24 @@
 
 import Image from "next/image";
 import { ArrowDown, ArrowRight, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+
+const Typewriter = ({ text, delay = 0, speed = 30, className = "" }: { text: string, delay?: number, speed?: number, className?: string }) => {
+  const [displayedText, setDisplayedText] = useState("");
+  useEffect(() => {
+    let i = 0;
+    const timer = setTimeout(() => {
+      const interval = setInterval(() => {
+        setDisplayedText(text.slice(0, i + 1));
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, speed);
+      return () => clearInterval(interval);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [text, delay, speed]);
+  return <span className={className}>{displayedText}</span>;
+};
 
 export default function Home() {
   return (
@@ -9,49 +27,38 @@ export default function Home() {
       {/* Hero Section - Full Screen behind transparent navbar */}
       <section className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 pb-12 overflow-hidden">
         {/* Background */}
-        <div className="absolute inset-0 z-0 w-full">
-          <Image
-            src="/bg.png"
-            alt="Background"
-            fill
-            className="object-cover w-full"
-            priority
+        <div className="absolute inset-0 z-0 w-full h-full bg-black overflow-hidden">
+          <video
+            src="/Liyt-logo-animation.mp4"
+            autoPlay
+            muted
+            playsInline
+            loop
+            className="object-cover w-full h-full -translate-y-16 md:-translate-y-32 scale-110 md:scale-125"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#0a0a0a]" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 text-center w-full px-4 pt-28">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-8 tracking-tight">
-            The <span className="text-[#E4FF2C]">liyt</span> way
-          </h1>
-          <p className="text-xl md:text-2xl text-white/80 mb-10 w-full">
-            LIYT is a smart delivery platform for social commerce businesses. Create, track, and complete last-mile deliveries with a shared driver network.
+        {/* Bottom Text and CTA Buttons */}
+        <div className="relative z-10 w-full px-6 mt-auto pb-8 flex flex-col items-center">
+          <p className="text-xl md:text-2xl text-gray-200 font-medium mb-12 md:mb-16 w-full max-w-5xl text-center min-h-[8rem] md:min-h-[4rem]">
+            <Typewriter 
+              text="LIYT is a smart delivery platform for social commerce businesses. Create, track, and complete last-mile deliveries with a shared driver network." 
+              delay={200} 
+              speed={20} 
+            />
           </p>
 
-          {/* Phone Image */}
-          <div className="relative mx-auto mb-10" style={{ maxWidth: '850px' }}>
-            <Image
-              src="/phone.png"
-              alt="LIYT App"
-              width={850}
-              height={1275}
-              className="w-full h-auto drop-shadow-2xl"
-              priority
-            />
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <button className="group flex flex-row items-center justify-center gap-3 bg-[#E4FF2C] text-black py-4 md:py-6 px-6 md:px-8 rounded-2xl font-bold text-lg md:text-xl hover:bg-[#d4ef1c] transition-colors">
+              <span>GET THE APP</span>
+              <ArrowDown className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-y-1 transition-transform" />
+            </button>
+            <button className="group flex flex-row items-center justify-center gap-3 bg-[#2a2a2a] text-white py-4 md:py-6 px-6 md:px-8 rounded-2xl font-bold text-lg md:text-xl hover:bg-[#3a3a3a] transition-colors">
+              <span>LEARN MORE</span>
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="relative z-10 w-full px-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-auto pb-8">
-          <button className="group flex flex-row items-center justify-center gap-3 bg-[#E4FF2C] text-black py-4 md:py-6 px-6 md:px-8 rounded-2xl font-bold text-lg md:text-xl hover:bg-[#d4ef1c] transition-colors">
-            <span>GET THE APP</span>
-            <ArrowDown className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-y-1 transition-transform" />
-          </button>
-          <button className="group flex flex-row items-center justify-center gap-3 bg-[#2a2a2a] text-white py-4 md:py-6 px-6 md:px-8 rounded-2xl font-bold text-lg md:text-xl hover:bg-[#3a3a3a] transition-colors">
-            <span>LEARN MORE</span>
-            <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
-          </button>
         </div>
       </section>
 
