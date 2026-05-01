@@ -82,7 +82,7 @@ export function useAuthCheck({ requireAuth = true, redirectTo = '/login' }: UseA
     };
 
     checkAuth();
-  }, [isAuthCheckComplete, reduxIsLoading, isAuthenticated, expiresAt, requireAuth, redirectTo, router, dispatch, attemptRefresh]);
+  }, [isAuthCheckComplete, reduxIsLoading, isAuthenticated, expiresAt, requireAuth, redirectTo, router, dispatch, attemptRefresh, storedRefreshToken]);
 
   // Function to manually check and refresh token
   const ensureValidToken = useCallback(async (): Promise<boolean> => {

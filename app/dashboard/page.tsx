@@ -1,9 +1,16 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DashboardLayout } from './components/DashboardLayout';
+
+interface DashboardDelivery {
+  id: number;
+  public_id?: string;
+  status: string;
+  created_at: string;
+  updated_at?: string;
+}
 import { OrderStatsSummary, OrderStats } from './components/OrderStatsSummary';
 import { ShoppingCart, Rocket } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +21,6 @@ import { useAuthCheck } from '@/lib/hooks/useAuthCheck';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 export default function DashboardPage() {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const { user, business, accessToken } = useAppSelector((state) => state.auth);
   
@@ -27,7 +33,7 @@ export default function DashboardPage() {
     inTransit: 0,
     completed: 0,
   });
-  const [recentDeliveries, setRecentDeliveries] = useState<any[]>([]);
+  const [recentDeliveries, setRecentDeliveries] = useState<DashboardDelivery[]>([]);
 
   const fetchDeliveries = useCallback(async () => {
     if (!accessToken) return;
@@ -42,9 +48,9 @@ export default function DashboardPage() {
         
         // Calculate stats
         const total = data.length;
-        const pending = data.filter((d: any) => d.status === 'awaiting_recipient' || d.status === 'pending').length;
-        const inTransit = data.filter((d: any) => d.status === 'accepted' || d.status === 'picked_up' || d.status === 'in_transit').length;
-        const completed = data.filter((d: any) => d.status === 'delivered').length;
+        const pending = data.filter((d: DashboardDelivery) => d.status === 'awaiting_recipient' || d.status === 'pending').length;
+        const inTransit = data.filter((d: DashboardDelivery) => d.status === 'accepted' || d.status === 'picked_up' || d.status === 'in_transit').length;
+        const completed = data.filter((d: DashboardDelivery) => d.status === 'delivered').length;
         
         setStats({
           totalOrders: total,
@@ -70,6 +76,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (isAuthenticated && accessToken) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchDeliveries();
     }
   }, [isAuthenticated, accessToken, fetchDeliveries]);
@@ -94,7 +101,7 @@ export default function DashboardPage() {
     return `${Math.floor(diffInSeconds / 86400)} days ago`;
   };
 
-  const getStatusMessage = (delivery: any) => {
+  const getStatusMessage = (delivery: DashboardDelivery) => {
     const id = delivery.public_id || `ORD-${delivery.id}`;
     switch (delivery.status) {
       case 'delivered': return `Order #${id} completed successfully`;

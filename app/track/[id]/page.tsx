@@ -16,7 +16,6 @@ import {
   MapPin, 
   Truck, 
   User, 
-  Phone, 
   Clock, 
   CheckCircle2,
   Circle,
@@ -24,18 +23,9 @@ import {
   Loader2,
   AlertCircle
 } from 'lucide-react';
-import dynamic from 'next/dynamic';
+
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-
-const LocationPicker = dynamic(() => import('@/components/ui/location-picker'), {
-  ssr: false,
-  loading: () => (
-    <div className="h-64 w-full bg-[#1a1a1a] border border-white/10 rounded-lg flex items-center justify-center">
-      <span className="text-white/50">Loading map...</span>
-    </div>
-  ),
-});
 
 // Dark theme map tiles
 const darkTileLayer = {

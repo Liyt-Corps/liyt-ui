@@ -17,7 +17,6 @@ import {
   MapPin,
   User,
   Phone,
-  Mail,
   Truck,
   Clock,
   CheckCircle2,

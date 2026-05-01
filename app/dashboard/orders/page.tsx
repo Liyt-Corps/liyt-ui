@@ -1,21 +1,16 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from '../components/DashboardLayout';
-import { StatsCard } from '../components/StatsCard';
 import { OrderStatsSummary, OrderStats } from '../components/OrderStatsSummary';
 import { StatusBadge } from '../components/StatusBadge';
 import { CreateOrderModal } from '../components/CreateOrderModal';
 import {
   ShoppingCart,
-  Clock,
-  CheckCircle,
-  Rocket,
   Search,
   Filter,
   Download,
-  Bell,
   MapPin,
   MoreHorizontal,
   ChevronLeft,
@@ -88,7 +83,7 @@ export default function OrdersPage() {
   const { accessToken } = useAppSelector((state) => state.auth);
   
   // Use auth check hook - redirects to login if not authenticated
-  const { isAuthenticated, isLoading: authLoading } = useAuthCheck({ requireAuth: true, redirectTo: '/login' });
+  useAuthCheck({ requireAuth: true, redirectTo: '/login' });
   
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -249,7 +244,9 @@ export default function OrdersPage() {
             >
               <Loader2 className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </Button>
-            <CreateOrderModal onOrderCreated={handleOrderCreated} />
+            <Suspense fallback={<Button variant="outline" className="border-white/20 text-white"><Loader2 className="w-4 h-4 mr-2 animate-spin" />Loading...</Button>}>
+              <CreateOrderModal onOrderCreated={handleOrderCreated} />
+            </Suspense>
           </div>
         </div>
 

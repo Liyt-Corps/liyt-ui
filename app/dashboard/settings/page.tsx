@@ -54,7 +54,7 @@ export default function SettingsPage() {
   const { accessToken, user } = useAppSelector((state) => state.auth);
   
   // Use auth check hook - redirects to login if not authenticated
-  const { isAuthenticated, isLoading: authLoading } = useAuthCheck({ requireAuth: true, redirectTo: '/login' });
+  useAuthCheck({ requireAuth: true, redirectTo: '/login' });
   
   const [locations, setLocations] = useState<BusinessLocation[]>([]);
   const [loading, setLoading] = useState(true);
